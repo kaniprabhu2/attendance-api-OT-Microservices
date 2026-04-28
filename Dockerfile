@@ -1,8 +1,8 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system deps
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
@@ -19,10 +19,10 @@ COPY pyproject.toml poetry.lock* /app/
 RUN poetry config virtualenvs.create false \
     && poetry install --no-dev
 
-# Copy project
+# Copy app code
 COPY . .
 
-# Expose internal port
+# Expose port
 EXPOSE 8000
 
 # Run using gunicorn
