@@ -19,11 +19,11 @@ COPY pyproject.toml poetry.lock* /app/
 RUN poetry config virtualenvs.create false \
     && poetry install --no-dev
 
-# Copy code
+# Copy project
 COPY . .
 
 # Expose internal port
 EXPOSE 8000
 
-# Run app on 8000
-CMD ["python", "app.py"]
+# Run using gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
