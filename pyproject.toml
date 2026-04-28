@@ -12,7 +12,7 @@ python = "^3.11"
 flask = "^2.3.2"
 gunicorn = "^21.2.0"
 
-# Existing dependencies
+# Existing libs
 peewee = "^3.16.2"
 voluptuous = "^0.13.1"
 redis = "^4.6.0"
@@ -23,7 +23,7 @@ flask-caching = "^2.0.2"
 prometheus-flask-exporter = "^0.22.4"
 flasgger = "0.9.7b2"
 
-# Optional (keep if used)
+# Optional (only if used)
 psycopg2-binary = "^2.9.6"
 PyYAML = "^6.0"
 
