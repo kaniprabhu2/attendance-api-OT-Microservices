@@ -15,15 +15,12 @@ RUN pip install poetry
 # Copy dependency files
 COPY pyproject.toml poetry.lock* /app/
 
-# Install dependencies ONLY (not project itself)
+# Install ONLY dependencies (NOT project)
 RUN poetry config virtualenvs.create false \
-    && poetry install --only main --no-interaction --no-ansi
+    && poetry install --only main --no-root --no-interaction --no-ansi
 
-# Copy project files
+# Copy full app
 COPY . .
 
-# Expose port
-EXPOSE 8000
-
 # Run app
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+CMD ["python", "app.py"]
