@@ -4,8 +4,7 @@ version = "0.1.0"
 description = "A python based microservice for handling attendance records"
 authors = ["Opstree Solutions"]
 license = "Apache"
-readme = "README.md"
-packages = [{include = "attendance_api"}]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
