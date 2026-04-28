@@ -1,24 +1,29 @@
-FROM python:3.11
-LABEL authors="Opstree Solutions" \
-      application="Attendance API" \
-      version="v0.1.0"
+FROM python:3.10-slim
 
-WORKDIR /api
+WORKDIR /app
 
-RUN pip3 install poetry gunicorn
+# Install system deps
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml poetry.lock .
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-root --no-interaction --no-ansi
+# Install poetry
+RUN pip install poetry
 
-COPY client/ client/
-COPY models/ models/
-COPY router/ router/
-COPY utils/ utils/
-COPY app.py app.py
-COPY log.conf log.conf
+# Copy dependency files
+COPY pyproject.toml poetry.lock* /app/
 
-ENTRYPOINT ["gunicorn"]
+# Install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-dev
 
-CMD [ "app:app", "--log-config", \
-    "log.conf", "-b", "0.0.0.0:8080"]
+# Copy code
+COPY . .
+
+# Expose internal port
+EXPOSE 8000
+
+# Run app on 8000
+CMD ["python", "app.py"]
